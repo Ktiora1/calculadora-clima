@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Sensação Térmica</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #333;
+            margin: 20px 0 10px 0;
+            font-size: 28px;
+            font-weight: 600;
+        }
+        
+        .header .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .motorcycle-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 36px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+        
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+        
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            color: #667eea;
+            font-size: 18px;
+        }
+        
+        input[type="submit"] {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 16px 30px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        input[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .resultado-container {
+            margin-top: 40px;
+            text-align: center;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .resultado {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(79, 172, 254, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .resultado::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 2s infinite;
+        }
+        
+        .resultado-title {
+            font-size: 18px;
+            margin-bottom: 15px;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .resultado-value {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .resultado-unit {
+            font-size: 24px;
+            opacity: 0.8;
+        }
+        
+        .thermometer-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .weather-info {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .weather-item {
+            text-align: center;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .weather-item-icon {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .weather-item-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="motorcycle-icon">🏍️</div>
+            <h1>Calculadora de Sensação Térmica</h1>
+            <p class="subtitle">Descubra como a temperatura realmente parece durante sua viagem</p>
+        </div>
+        
+        <form method="POST">
+            <div class="form-group">
+                <label for="temperatura">Temperatura Atual</label>
+                <input type="number" step="0.1" name="temperatura" id="temperatura" required placeholder="Ex: 25.5">
+                <div class="input-icon">🌡️</div>
+            </div>
+            
+            <div class="form-group">
+                <label for="velocidade">Velocidade da Moto</label>
+                <input type="number" step="0.1" name="velocidade" id="velocidade" required placeholder="Ex: 80.0">
+                <div class="input-icon">🏍️</div>
+            </div>
+            
+            <input type="submit" value="Calcular Sensação Térmica">
+        </form>
+        
+        {% if resultado is not none %}
+        <div class="resultado-container">
+            <div class="resultado">
+                <div class="thermometer-icon">🌡️</div>
+                <div class="resultado-title">Sensação Térmica</div>
+                <div class="resultado-value">{{ resultado }}</div>
+                <div class="resultado-unit">°C</div>
+                
+                <div class="weather-info">
+                    <div class="weather-item">
+                        <div class="weather-item-icon">🌬️</div>
+                        <div class="weather-item-label">Vento</div>
+                    </div>
+                    <div class="weather-item">
+                        <div class="weather-item-icon">🌡️</div>
+                        <div class="weather-item-label">Térmica</div>
+                    </div>
+                    <div class="weather-item">
+                        <div class="weather-item-icon">🏍️</div>
+                        <div class="weather-item-label">Moto</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
